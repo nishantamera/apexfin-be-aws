@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 def get_db_handle(dbName):
-    client = MongoClient("mongodb://3.136.254.218:27017")
+    client = MongoClient("mongodb://admin:admin@3.136.254.218:27017")
     db = client[dbName]
     return db
 

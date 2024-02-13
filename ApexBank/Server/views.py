@@ -24,12 +24,12 @@ azureABCredentials = {
     "password": "Azure@098"
 }
 
-azureLoginEndpoint = "https://democentraldev.trybmc.com/apex-azure/account/login"
-azureCCEndpoint = "https://democentraldev.trybmc.com/apex-azure/cards"
-azureCCSummaryEndpoint = "https://democentraldev.trybmc.com/apex-azure/card-summary"
-azureGetPayeesEndpoint = "https://democentraldev.trybmc.com/apex-azure/get-payees"
-azureAddPayeeEndpoint = "https://democentraldev.trybmc.com/apex-azure/add-payee"
-azureDeletePayeeEndpoint = "https://democentraldev.trybmc.com/apex-azure/delete-payee"
+azureLoginEndpoint = "http://3.136.254.218/apex-azure/account/login"
+azureCCEndpoint = "http://3.136.254.218/apex-azure/cards"
+azureCCSummaryEndpoint = "http://3.136.254.218/apex-azure/card-summary"
+azureGetPayeesEndpoint = "http://3.136.254.218/apex-azure/get-payees"
+azureAddPayeeEndpoint = "http://3.136.254.218/apex-azure/add-payee"
+azureDeletePayeeEndpoint = "http://3.136.254.218/apex-azure/delete-payee"
 
 def search_user(email):
     user = list(userCollection.find({"email": email}))
@@ -81,9 +81,11 @@ def login(request):
 
     try:
         user = authenticate(request, username=username, password=pin)
+        print(user)
         if user is not None:
             refreshToken = RefreshToken.for_user(user)
             userCollection.update_one({"username": username}, {"$set": {"lastLoggedIn": currentTime}})
+            print("test")
             return JsonResponse({"access": str(refreshToken.access_token), "refresh": str(refreshToken)}, status=200, safe=False)
         else: 
             return JsonResponse({"error": "Invalid username or password, please try again."}, status=401, safe=False)
